@@ -3,7 +3,13 @@ php selenium baby.
 
 # Usage
 
+Please run selenium-server-standalone-3.4.0.jar. 
+ex.) `java -jar /Library/java/Extensions/selenium-server-standalone-3.4.0.jar &`
+
 ```sh
+$ git clone https://github.com/Rasukarusan/php-selenium-base.git
+$ cd php-selenium-base
+
 # headless
 $ php batch/run.php 1
 
