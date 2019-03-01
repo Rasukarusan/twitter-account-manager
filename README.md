@@ -21,6 +21,7 @@ $ php batch/run.php
 
 Edit account.json
 ```sh
+$ cp config/account_example.json accout.json
 $ vim account.json
 {
     "Gmail" : {
