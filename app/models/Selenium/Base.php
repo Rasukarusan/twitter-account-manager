@@ -113,6 +113,19 @@ class Models_Selenium_Base {
         return $this->driver->findElement(WebDriverBy::xpath('//*[text()="'.$text.'"]'));
     }
 
+   /**
+    * text検索で要素を取得する
+    *
+    * linkTextでも取得できない場合の最終手段となる
+    * <a>検索ワード</a>のような要素を取得できる
+    *
+    * @param  string $text 取得したい要素の単語
+    * @return WebDriverElement $element
+    */
+    protected function findElementsByXpathText($text) {
+        return $this->driver->findElements(WebDriverBy::xpath('//*[text()="'.$text.'"]'));
+    }
+
     /**
      * タイトルが完全一致で指定したものになるまで待つ
      *
