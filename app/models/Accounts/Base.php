@@ -28,8 +28,8 @@ class Models_Account_Base {
      * @return array
      */
     protected function getAccount($service_key) {
-        $json = file_get_contents(PATH_ACCOUNT_JSON);
-        $account = json_decode($json, true);
+        $json = file_get_contents('./account.json');
+        $account = json_decode($json);
         return $account[$service_key];
     }
 }
