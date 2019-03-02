@@ -1,7 +1,6 @@
 {
-    "Gmail" : {
-        "user_id"          : "XXXXXX",
-        "password"         : "YYYYYY",
-        "re_setting_email" : "ZZZZZZ"
+    "Twitter" : {
+        "account1" : {"user_id":"XXXXXXX", "password":"XXXXXXX"},
+        "account2" : {"user_id":"XXXXXXX", "password":"XXXXXXX"}
     }
 }
