@@ -24,7 +24,7 @@ class Models_Webdriver {
         $host = 'http://localhost:4444/wd/hub';
         $driver = RemoteWebDriver::create($host, $capabilities);
         // $driver->manage()->window()->maximize();
-        $size = new WebDriverDimension(1600, 800);
+        $size = new WebDriverDimension(1200, 800);
         $driver->manage()->window()->setSize($size);
         $driver->manage()->timeouts()->implicitlyWait(self::SELENIUM_TIMEOUT_SEC);
         $driver->manage()->timeouts()->pageLoadTimeout(self::SELENIUM_TIMEOUT_SEC);
