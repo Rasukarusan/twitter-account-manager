@@ -1,14 +1,22 @@
-# php-selenium-base
-php selenium baby.
+# twitter-account-manager
+
+You can mangement multi-twitter accounts by selenium.
+
+- Description
+
+You can automation following.
+
+- tweet
+- updateProfile
+- setIcon
+
+and more.
 
 # Usage
 
-Please run selenium-server-standalone-3.4.0.jar.   
-ex.) `java -jar /Library/java/Extensions/selenium-server-standalone-3.4.0.jar &`
-
 ```sh
-$ git clone https://github.com/Rasukarusan/php-selenium-base.git
-$ cd php-selenium-base
+$ git clone https://github.com/Rasukarusan/twitter-account-manager.git
+$ cd twitter-account-manager
 
 # headless
 $ php batch/run.php 1
@@ -17,46 +25,23 @@ $ php batch/run.php 1
 $ php batch/run.php
 ```
 
-# Example
+# Setting
 
-Edit account.json
+- Run selenium-server-standalone-3.4.0.jar.
+
 ```sh
-$ cp config/account_example.json accout.json
+# example
+java -jar /Library/java/Extensions/selenium-server-standalone-3.4.0.jar &
+```
+
+- Edit account.json
+
+Write your twitter account info.
+
+```sh
+$ cd twitter-account-manager
+$ cp account_example.json account.json
+
+# Write your twitter account info.
 $ vim account.json
-{
-    "Gmail" : {
-        "user_id"          : "hoge@gmail.com",
-        "password"         : "foofoo",
-        "re_setting_email" : "foo@yahoo.co.jp"
-    }
-}
 ```
-
-Edit MainController.php
-```sh
-$ vim app/controllers/MainController.php
-```
-
-```php
-<?php
-require_once dirname(__FILE__) .'/../models/Selenium/Webdriver.php';
-require_once dirname(__FILE__) .'/../models/Browsers/Gmail.php';
-
-class MainController {
-
-    private $is_headless;
-
-    function __construct($is_headless) {
-        $this->is_headless = $is_headless;
-    }
-
-    public function main() {
-        $driver = Models_Webdriver::create($this->is_headless);
-        // Gmail login. Edit account.json before you run.
-        $gmail = new Models_Browser_Gmail($driver);
-        $gmail->login();
-        $driver->quit();
-    }
-}
-```
-
