@@ -1,3 +1,5 @@
 account.json
 /log/*
+/icons/*
 !/log/.gitkeep
+!/icons/.gitkeep
