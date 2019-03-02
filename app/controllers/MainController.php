@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) .'/../models/Selenium/Webdriver.php';
-require_once dirname(__FILE__) .'/../models/Browsers/Gmail.php';
+require_once dirname(__FILE__) .'/../models/Browsers/Twitter.php';
 
 class MainController {
 
@@ -13,8 +13,9 @@ class MainController {
     public function main() {
         // ブラウザ起動
         $driver = Models_Webdriver::create($this->is_headless);
-        $gmail = new Models_Browser_Gmail($driver);
-        $gmail->login();
+        $twitter = new Models_Browser_Twitter($driver);
+        $twitter->main();
         $driver->quit();
     }
+
 }
