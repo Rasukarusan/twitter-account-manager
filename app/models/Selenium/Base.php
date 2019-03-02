@@ -149,11 +149,21 @@ class Models_Selenium_Base {
     /**
      * 要素がクリックできるようになるまで待つ
      *
-     * @param WebDriverElement $element
+     * @param WebDriverBy $element ex.) WebDriverBy::className('class')
      * @return void
      */
     protected function waitClickable($element) {
         $this->driver->wait(30)->until(WebDriverExpectedCondition::elementToBeClickable($element));
+    }
+
+    /**
+     * 要素が表示されるまで待つ
+     *
+     * @param WebDriverElement $element ex.) $this->findElementById('id')
+     * @return void
+     */
+    protected function waitVisibility($element) {
+        $this->driver->wait(20)->until(WebDriverExpectedCondition::visibilityOf($element));
     }
 
     /**
