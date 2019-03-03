@@ -19,6 +19,7 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
             $this->updateProfile($account->user_id);
             $this->tweet();
             $this->follow($exclude_accounts->my_account->user_id);
+            for ($i = 0; $i < 3; $i++) $this->reTweet();
             for ($i = 0; $i < 1; $i++) $this->followRecomendUsers($exclude_accounts->my_account->user_name);
             $this->logout();
         }
@@ -60,12 +61,40 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
     /**
      * ツイートする
      * 
+     * @param string $str ツイートする内容
      * @return void
      */
-    private function tweet() {
+    private function tweet($str = '') {
+        $this->driver->get(self::URL_BASE);
         $tweet_box = $this->findElementById('tweet-box-home-timeline')->click();
-        $tweet_box->sendKeys('shellのif文ややこしい...');
+        $tweet_box->sendKeys($str);
         $this->findElementsByClass('tweeting-text')[0]->click();
+    }
+
+    /**
+     * 自分のタイムラインからランダムにリツイートする
+     *
+     * 既にリツート済みの時は別のツイートを探してリツイートする
+     * 
+     * @return void
+     */
+    private function reTweet() {
+        $this->driver->get(self::URL_BASE);
+        $re_tweet_btns = $this->findElementsByClass('js-actionRetweet');
+        foreach ($re_tweet_btns as $re_tweet_btn) {
+            $index = self::getRandomNumByRange(1, count($re_tweet_btns)-1);
+            $target_retweet_btn = $re_tweet_btns[$index]; 
+            $this->moveToElement($target_retweet_btn);
+            if($this->isContain($target_retweet_btn->getText(), 'Retweet')
+            && !$this->isContain($target_retweet_btn->getText(),'Retweeted')) {
+                $target_retweet_btn->click();
+                break;
+            }
+        }
+        $this->waitVisibility($this->findElementsByClass('RetweetDialog-retweetActionLabel')[0]);
+        $this->findElementsByClass('RetweetDialog-retweetActionLabel')[0]->click();
+        // 即座に違うページに遷移するとリツイートがなかったことになる可能性があるため数秒待機する
+        sleep(2);
     }
 
     /**
@@ -182,6 +211,17 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
      */
     private static function getRandomNumByRange($start, $end) {
         return rand($start, $end);
+    }
+
+    /**
+     * 文字列が含まれるか判定
+     * 
+     * @param mixed $target_str 判定対象の文字列
+     * @param mixed $needle 判定したい単語
+     * @return boolean true:含まれる, false:含まれない
+     */
+    private static function isContain($target_str, $needle) {
+        return strpos($target_str, $needle) !== false ? true : false;
     }
 }
 
