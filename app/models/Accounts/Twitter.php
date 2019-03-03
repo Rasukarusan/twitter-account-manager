@@ -21,4 +21,16 @@ class Models_Account_Twitter extends Models_Account_Base {
         $account = json_decode($json);
         return $account->$service_key;
     }
+
+    /**
+     * 除外したいユーザーのアカウント情報を取得
+     * 
+     * @return stdClass
+     */
+    public static function getExcludeAccounts() {
+        $json = file_get_contents('./account.json');
+        $account = json_decode($json);
+        return $account->exclude_accounts;
+    }
 }
+

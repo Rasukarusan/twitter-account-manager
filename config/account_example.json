@@ -2,5 +2,11 @@
     "Twitter" : {
         "account1" : {"user_id":"XXXXXXX", "password":"XXXXXXX"},
         "account2" : {"user_id":"XXXXXXX", "password":"XXXXXXX"}
+    },
+    "exclude_accounts" : {
+        "my_account" : {
+            "user_id" : "XXXXXXXX",
+            "user_name" : "XXXXXXXXX"
+        }
     }
 }

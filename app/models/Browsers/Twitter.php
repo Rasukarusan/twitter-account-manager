@@ -13,11 +13,13 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
 
     public function main() {
         $twitter = new Models_Account_Twitter();
+        $exclude_accounts = Models_Account_Twitter::getExcludeAccounts();
         foreach ($twitter->accounts as $account) {
             $this->login($account->user_id, $account->password);
             $this->updateProfile($account->user_id);
             $this->tweet();
-            for ($i=0; $i < 3; $i++) $this->followRecomendUsers();
+            $this->follow($exclude_accounts->my_account->user_id);
+            for ($i = 0; $i < 1; $i++) $this->followRecomendUsers($exclude_accounts->my_account->user_name);
             $this->logout();
         }
     }
@@ -139,21 +141,33 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
     }
 
     /**
-     * おすすめユーザーを取得
+     * 指定したユーザーをフォローする
+     * 
+     * @param string $target_user_id ex.) @hogeユーザーの場合、$target_user_id = 'hoge'
+     * @return void
+     */
+    private function follow($target_user_id) {
+        $this->driver->get(self::URL_BASE . '/' . $target_user_id);
+        $follow_btn = $this->findElementByXpath("//div[@data-screen-name='$target_user_id']");
+        // フォローしていない場合のみFollowボタンをクリックする
+        if(strpos($follow_btn->getText(), 'Following') === false) {
+            $follow_btn->click();
+        }
+    }
+
     /**
      * おすすめユーザーをフォローする
      * 
      * @return void
      */
-    private function followRecomendUsers() {
+    private function followRecomendUsers($exclude_followed_by = '') {
         $this->driver->get(self::URL_BASE . self::ENDPOINT_RECOMEND_USER);
         $timeline = $this->findElementByCssSelector('#timeline button');
         $users = $this->findElementsByClass('account');
         $follow_btns = $timeline->findElements(WebDriverBy::xpath('//*[text()="Follow"]'));
         // Followed by XXXXX と表示されているアカウントはフォローしない
-        $exclude_followed_by = 'XXXXX';
         foreach ($users as $index => $user) {
-            if(strpos($user->getText(), "Followed by {$exclude_followed_by}") === false){
+            if(strpos($user->getText(), "Followed by {$exclude_followed_by}") === false) {
                 $follow_btns[$index]->click();
             }
         }
