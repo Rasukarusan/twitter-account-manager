@@ -9,13 +9,15 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
     const URL_BASE = 'https://twitter.com'; 
     const ENDPOINT_LOGIN  = '/login';
     const ENDPOINT_LOGOUT = '/logout';
+    const ENDPOINT_RECOMEND_USER = '/who_to_follow/suggestions';
 
     public function main() {
         $twitter = new Models_Account_Twitter();
         foreach ($twitter->accounts as $account) {
             $this->login($account->user_id, $account->password);
             $this->updateProfile($account->user_id);
-            // $this->tweet();
+            $this->tweet();
+            for ($i=0; $i < 3; $i++) $this->followRecomendUsers();
             $this->logout();
         }
     }
@@ -134,6 +136,25 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
      */
     private function createDescriptionText() {
         return  'vimとshellが至高';
+    }
+
+    /**
+     * おすすめユーザーを取得
+     * 
+     * @return void
+     */
+    private function followRecomendUsers() {
+        $this->driver->get(self::URL_BASE . self::ENDPOINT_RECOMEND_USER);
+        $timeline = $this->findElementByCssSelector('#timeline button');
+        $users = $this->findElementsByClass('account');
+        $follow_btns = $timeline->findElements(WebDriverBy::xpath('//*[text()="Follow"]'));
+        // Followed by XXXXX と表示されているアカウントはフォローしない
+        $exclude_followed_by = 'XXXXX';
+        foreach ($users as $index => $user) {
+            if(strpos($user->getText(), "Followed by {$exclude_followed_by}") === false){
+                $follow_btns[$index]->click();
+            }
+        }
     }
 
     /**
