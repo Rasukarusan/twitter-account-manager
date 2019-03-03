@@ -220,5 +220,16 @@ class Models_Selenium_Base {
     protected function scrollToBottom() {
         $this->driver->executeScript("window.scrollTo(0, document.body.scrollHeight)");
     }
+
+    /**
+     * 対象の要素までスクロールする
+     * 
+     * @param WebDriverElement $element 
+     * @return void
+     */
+    protected function moveToElement($element) {
+        $action = $this->driver->action();
+        $action->moveToElement($element)->perform();
+    }
 }
 
