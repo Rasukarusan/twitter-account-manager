@@ -65,10 +65,13 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
      * @return void
      */
     private function tweet($str = '') {
-        $this->driver->get(self::URL_BASE);
+        // TOPページの場合、改めて遷移しないほうが動作が安定するため判定する
+        if($this->driver->getCurrentURL() !== self::URL_BASE) $this->driver->get(self::URL_BASE);
         $tweet_box = $this->findElementById('tweet-box-home-timeline')->click();
         $tweet_box->sendKeys($str);
         $this->findElementsByClass('tweeting-text')[0]->click();
+        // ツイートが終わるまでに違うページに遷移するとアラートが出るため数秒待機
+        sleep(2);
     }
 
     /**
@@ -79,7 +82,8 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
      * @return void
      */
     private function reTweet() {
-        $this->driver->get(self::URL_BASE);
+        // TOPページの場合、改めて遷移しないほうが動作が安定するため判定する
+        if($this->driver->getCurrentURL() !== self::URL_BASE) $this->driver->get(self::URL_BASE);
         $re_tweet_btns = $this->findElementsByClass('js-actionRetweet');
         foreach ($re_tweet_btns as $re_tweet_btn) {
             $index = self::getRandomNumByRange(1, count($re_tweet_btns)-1);
