@@ -183,7 +183,7 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
         $this->driver->get(self::URL_BASE . '/' . $target_user_id);
         $follow_btn = $this->findElementByXpath("//div[@data-screen-name='$target_user_id']");
         // フォローしていない場合のみFollowボタンをクリックする
-        if(strpos($follow_btn->getText(), 'Following') === false) {
+        if(!$this->isContain($follow_btn->getText(), 'Following')) {
             $follow_btn->click();
         }
     }
@@ -200,7 +200,7 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
         $follow_btns = $timeline->findElements(WebDriverBy::xpath('//*[text()="Follow"]'));
         // Followed by XXXXX と表示されているアカウントはフォローしない
         foreach ($users as $index => $user) {
-            if(strpos($user->getText(), "Followed by {$exclude_followed_by}") === false) {
+            if(!$this->isContain($user->getText(), "Followed by {$exclude_followed_by}")) {
                 $follow_btns[$index]->click();
             }
         }
