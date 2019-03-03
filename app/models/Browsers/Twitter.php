@@ -140,6 +140,8 @@ class Models_Browser_Twitter extends Models_Selenium_Base {
 
     /**
      * おすすめユーザーを取得
+    /**
+     * おすすめユーザーをフォローする
      * 
      * @return void
      */
