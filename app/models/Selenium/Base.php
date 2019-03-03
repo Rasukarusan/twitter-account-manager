@@ -211,5 +211,14 @@ class Models_Selenium_Base {
     protected function scrollToElement($element) {
         $element->getLocationOnScreenOnceScrolledIntoView();
     }
+
+    /**
+     * 一番下までスクロールする
+     *
+     * @return void
+     */
+    protected function scrollToBottom() {
+        $this->driver->executeScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
 }
 
