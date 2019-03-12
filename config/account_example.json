@@ -1,7 +1,7 @@
 {
     "Twitter" : [
-        "{"user_id":"XXXXXXX", "password":"XXXXXXX"},
-        "{"user_id":"XXXXXXX", "password":"XXXXXXX"}
+        {"user_id":"XXXXXXX", "password":"XXXXXXX"},
+        {"user_id":"XXXXXXX", "password":"XXXXXXX"}
     ],
     "exclude_accounts" : {
         "my_account" : {
